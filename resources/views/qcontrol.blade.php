@@ -15,6 +15,28 @@
         <script nonce="24b1c56c-ca8d-418e-8098-7723180c6061">
             (function(w,d){!function(bg,bh,bi,bj){bg[bi]=bg[bi]||{};bg[bi].executed=[];bg.zaraz={deferred:[],listeners:[]};bg.zaraz.q=[];bg.zaraz._f=function(bk){return async function(){var bl=Array.prototype.slice.call(arguments);bg.zaraz.q.push({m:bk,a:bl}')}};for(const bm of["track","set","debug"])bg.zaraz[bm]=bg.zaraz._f(bm);bg.zaraz.init=()=>{var bn=bh.getElementsByTagName(bj)[0],bo=bh.createElement(bj),bp=bh.getElementsByTagName("title")[0];bp&&(bg[bi].t=bh.getElementsByTagName("title")[0].text);bg[bi].x=Math.random();bg[bi].w=bg.screen.width;bg[bi].h=bg.screen.height;bg[bi].j=bg.innerHeight;bg[bi].e=bg.innerWidth;bg[bi].l=bg.location.href;bg[bi].r=bh.referrer;bg[bi].k=bg.screen.colorDepth;bg[bi].n=bh.characterSet;bg[bi].o=(new Date).getTimezoneOffset();if(bg.dataLayer)for(const bt of Object.entries(Object.entries(dataLayer).reduce(((bu,bv)=>({...bu[1],...bv[1]})),{})))zaraz.set(bt[0],bt[1],{scope:"page"});bg[bi].q=[];for(;bg.zaraz.q.length;){const bw=bg.zaraz.q.shift();bg[bi].q.push(bw)}bo.defer=!0;for(const bx of[localStorage,sessionStorage])Object.keys(bx||{}).filter((bz=>bz.startsWith("_zaraz_"))).forEach((by=>{try{bg[bi]["z_"+by.slice(7)]=JSON.parse(bx.getItem(by))}catch{bg[bi]["z_"+by.slice(7)]=bx.getItem(by')}}));bo.referrerPolicy="origin";bo.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(bg[bi])));bn.parentNode.insertBefore(bo,bn)};["complete","interactive"].includes(bh.readyState)?zaraz.init():bg.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,"zarazData","script");})(window,document);
         </script>
+        <style>
+            .floating-button {
+                position: fixed;
+                bottom: 20px; /* Atur jarak dari bawah */
+                right: 20px; /* Atur jarak dari kanan */
+                z-index: 1000; /* Atur urutan lapisan di atas elemen lain */
+            }
+
+            .floating-button a {
+                display: inline-block; /* Membuat tautan menjadi elemen blok dengan lebar dan tinggi sesuai kontennya */
+                background: url('{{ asset("assets/images/notification-bell.jpg") }}');
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                color: #25D366;
+                text-decoration: none; /* Menghapus gaya bawaan tautan */
+                padding: 30px 30px;
+                border-radius: 50px;
+                cursor: pointer;
+                box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
+            }
+        </style>
     </head>
     <body class="hold-transition sidebar-mini sidebar-collapse">
         <div class="wrapper">
@@ -97,14 +119,6 @@
                                                 <td>{{$produk -> jeniSablon}}</td>
                                                 <td>{{$produk -> status}}</td>
                                                 <td>
-                                                @foreach($notifications as $notification)
-                                                    <div>
-                                                        {{ $notification->data['message'] }} <br>
-                                                    </div>
-                                                @endforeach  
-                                                @if($notifications->isEmpty())
-                                                    <div>Tidak ada notifikasi.</div>
-                                                @endif   
                                                     @if($produk->status === 'Selesai' || $produk->status === 'Ditolak' || $produk->status === 'Terpenuhi' || $produk->status === 'Fixed')
                                                         <div class="btn-group d-flex justify-content-around gap-4">
                                                             <div>
@@ -214,6 +228,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="floating-button">
+                    <button type="button" class="btn btn-primary dropdown-toggle far fa-bell" data-bs-toggle="dropdown"> </button>
+                    <ul class="dropdown-menu">
+                        <li><span class="dropdown-item-text" href="#">
+                            @foreach($notifications as $notification)
+                                <div>
+                                    {{ $notification->data['message'] }} <br>
+                                </div>
+                            @endforeach  
+                            @if($notifications->isEmpty())
+                                <div>Tidak ada notifikasi.</div>
+                            @endif
+                        </span>
+                        </li>
+                    </ul>
                 </div>
             </section>
             <!-- /.content -->

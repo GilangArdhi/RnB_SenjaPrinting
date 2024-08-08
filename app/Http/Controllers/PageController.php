@@ -16,40 +16,40 @@ class PageController extends Controller
         $data = DB::table('produk')->orderBy('updated_at', 'asc')->get();
         $user = User::where('role','=','customer service')->first();
         $notifications = $user ? $user->notifications : collect();
-        return view('cservice', ['data' => $data], ['pengguna' => $pengguna], compact('notifications'));
+        return view('cservice', ['data' => $data, 'pengguna' => $pengguna,'notifications'=>$notifications]);
     }
     public function produksiPage(){
         $pengguna = Auth::user();
         $data = DB::table('produk')->get();
         $user = User::where('role','=','produksi')->first();
         $notifications = $user ? $user->notifications : collect();
-        return view('produksi', ['data' => $data],['pengguna' => $pengguna], compact('notifications'));
+        return view('produksi', ['data' => $data, 'pengguna' => $pengguna,'notifications'=>$notifications]);
     }
     public function qualityControl(){
         $pengguna = Auth::user();
         $data = DB::table('produk')->get();
         $user = User::where('role','=','quality control')->first();
         $notifications = $user ? $user->notifications : collect();
-        return view('qcontrol', ['data' => $data],['pengguna' => $pengguna], compact('notifications'));
+        return view('qcontrol', ['data' => $data, 'pengguna' => $pengguna,'notifications'=>$notifications]);
     }
     public function packaging(){
         $pengguna = Auth::user();
         $data = DB::table('produk')->get();
         $user = User::where('role','=','package')->first();
         $notifications = $user ? $user->notifications : collect();
-        return view('packaging', ['data' => $data],['pengguna' => $pengguna], compact('notifications'));
+        return view('packaging', ['data' => $data, 'pengguna' => $pengguna,'notifications'=>$notifications]);
     }
     public function pengiriman(){
         $pengguna = Auth::user();
         $data = DB::table('produk')->get();
         $user = User::where('role','=','pengiriman')->first();
         $notifications = $user ? $user->notifications : collect();
-        return view('pengiriman', ['data' => $data],['pengguna' => $pengguna], compact('notifications'));
+        return view('pengiriman', ['data' => $data, 'pengguna' => $pengguna,'notifications'=>$notifications]);
     }
     public function keterangan(){
         $pengguna = Auth::user();
         $data = DB::table('produk')->join('ketproduksi', 'produk.id', '=', 'ketproduksi.id_produk')->get();
-        return view('keterangan', ['data' => $data],['pengguna' => $pengguna], compact('notifications'));
+        return view('keterangan', ['data' => $data, 'pengguna' => $pengguna]);
     }
     public function login(){
         return view('login');
