@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Produk;
+use App\Models\User;
 use App\Models\ketProduksi;
+use App\Notifications\ProductStatusNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -41,6 +43,7 @@ class DataProduk extends Controller
         $ukuran = $request -> ukuran;
         $warna = $request -> warna;
         $jeniSablon = $request -> jeniSablon;
+        $status = $request->status;
 
         if ($request->hasFile('gambar1')) {
             $gambarUtama = $request -> file('gambar1');
@@ -50,7 +53,6 @@ class DataProduk extends Controller
         }
 
         $lastId = DB::table('produk')->max('id');
-
         if ($idProduk != $lastId){
             $insert = Produk::create([
                 'namaPemesan' => $namaPemesan,
@@ -63,6 +65,14 @@ class DataProduk extends Controller
                 'desain'=> $filenameGambarUtama,
                 'jeniSablon' => $jeniSablon,
             ]);
+            
+            $produk = Produk::find($idProduk);
+            if ($status == 'Selesai'){
+                $adminUsers = User::where('role', 'quality control')->get();
+                foreach ($adminUsers as $admin) {
+                    $admin->notify(new ProductStatusNotification($produk));
+                }
+            }
 
             return back()->with('sukses', 'Data berhasil ditambahkan');       
         } else {
@@ -90,6 +100,30 @@ class DataProduk extends Controller
         if ($produk) {
             $produk->status = $status;
             $produk->save();
+            if ($status == 'Selesai'){
+                $adminUsers = User::where('role', 'quality control')->get();
+                foreach ($adminUsers as $admin) {
+                    $admin->notify(new ProductStatusNotification($produk));
+                }
+            }
+            if ($status == 'Terpenuhi'){
+                $adminUsers = User::where('role', 'package')->get();
+                foreach ($adminUsers as $admin) {
+                    $admin->notify(new ProductStatusNotification($produk));
+                }
+            }
+            if ($status == 'Menunggu Kurir'){
+                $adminUsers = User::where('role', 'pengiriman')->get();
+                foreach ($adminUsers as $admin) {
+                    $admin->notify(new ProductStatusNotification($produk));
+                }
+            }
+            if ($status == 'Diterima Pelanggan'){
+                $adminUsers = User::where('role', 'customer service')->get();
+                foreach ($adminUsers as $admin) {
+                    $admin->notify(new ProductStatusNotification($produk));
+                }
+            }
         } else {
             return redirect()->back()->withErrors('Produk tidak ditemukan');
         }

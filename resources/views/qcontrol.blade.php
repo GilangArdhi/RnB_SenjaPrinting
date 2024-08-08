@@ -45,6 +45,7 @@
                 </section>
 
             <!-- Main content -->
+            
             <section class="content">
                 <div class="container-fluid">
                     <!-- modal -->
@@ -96,6 +97,14 @@
                                                 <td>{{$produk -> jeniSablon}}</td>
                                                 <td>{{$produk -> status}}</td>
                                                 <td>
+                                                @foreach($notifications as $notification)
+                                                    <div>
+                                                        {{ $notification->data['message'] }} <br>
+                                                    </div>
+                                                @endforeach  
+                                                @if($notifications->isEmpty())
+                                                    <div>Tidak ada notifikasi.</div>
+                                                @endif   
                                                     @if($produk->status === 'Selesai' || $produk->status === 'Ditolak' || $produk->status === 'Terpenuhi' || $produk->status === 'Fixed')
                                                         <div class="btn-group d-flex justify-content-around gap-4">
                                                             <div>

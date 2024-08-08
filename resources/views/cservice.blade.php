@@ -114,6 +114,7 @@
                                             <label for="jeniSablon" class="form-label">Jenis Sablon</label>
                                             <input type="text" class="form-control" rows="4" id="jeniSablon" name="jeniSablon">
                                         </div>
+                                        <input type="hidden" name="status" value="Ditambakan">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                         <button type="button" class="btn btn-danger"
                                             data-bs-dismiss="modal">Close</button>

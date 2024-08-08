@@ -264,15 +264,63 @@
                             data-accordion="false"
                         >
                             <li class="nav-item">
-                                <a href="/dashboard" class="nav-link">
-                                    <i
-                                        class="nav-icon fas fa-tachometer-alt"
-                                    ></i>
-                                    <p>
-                                        Dashboard
-                                        <!-- <i class="right fas fa-angle-left"></i> -->
-                                    </p>
-                                </a>
+                            @auth
+                                @if(Auth::user()->isCustomerService())
+                                    <a href="/cs" class="nav-link">
+                                        <i
+                                            class="nav-icon fas fa-tachometer-alt"
+                                        ></i>
+                                        <p>
+                                            Dashboard
+                                            <!-- <i class="right fas fa-angle-left"></i> -->
+                                        </p>
+                                    </a>
+                                @endif
+                                @if(Auth::user()->isProduksi())
+                                    <a href="/produksi" class="nav-link">
+                                        <i
+                                            class="nav-icon fas fa-tachometer-alt"
+                                        ></i>
+                                        <p>
+                                            Dashboard
+                                            <!-- <i class="right fas fa-angle-left"></i> -->
+                                        </p>
+                                    </a>
+                                @endif
+                                @if(Auth::user()->isQualityControl())
+                                    <a href="/qc" class="nav-link">
+                                        <i
+                                            class="nav-icon fas fa-tachometer-alt"
+                                        ></i>
+                                        <p>
+                                            Dashboard
+                                            <!-- <i class="right fas fa-angle-left"></i> -->
+                                        </p>
+                                    </a>
+                                @endif
+                                @if(Auth::user()->isPackage())
+                                    <a href="/package" class="nav-link">
+                                        <i
+                                            class="nav-icon fas fa-tachometer-alt"
+                                        ></i>
+                                        <p>
+                                            Dashboard
+                                            <!-- <i class="right fas fa-angle-left"></i> -->
+                                        </p>
+                                    </a>
+                                @endif
+                                @if(Auth::user()->isPengiriman())
+                                    <a href="/pengiriman" class="nav-link">
+                                        <i
+                                            class="nav-icon fas fa-tachometer-alt"
+                                        ></i>
+                                        <p>
+                                            Dashboard
+                                            <!-- <i class="right fas fa-angle-left"></i> -->
+                                        </p>
+                                    </a>
+                                @endif
+                            @endauth
                                 <a href="keterangan" class="nav-link">
                                     <i
                                         class="nav-icon fas fa-edit"
