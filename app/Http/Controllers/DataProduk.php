@@ -52,8 +52,7 @@ class DataProduk extends Controller
             Storage::disk('public')->put($path, file_get_contents($gambarUtama));
         }
 
-        $lastId = DB::table('produk')->max('id');
-        if ($idProduk != $lastId){
+        
             $insert = Produk::create([
                 'namaPemesan' => $namaPemesan,
                 'namaProduk' => $namaProduk,
@@ -66,18 +65,18 @@ class DataProduk extends Controller
                 'jeniSablon' => $jeniSablon,
             ]);
             
-            $produk = Produk::find($idProduk);
-            if ($status == 'Selesai'){
-                $adminUsers = User::where('role', 'quality control')->get();
-                foreach ($adminUsers as $admin) {
-                    $admin->notify(new ProductStatusNotification($produk));
+            if ($insert) {
+                $produk = Produk::find($idProduk);
+                if ($status == 'Selesai') {
+                    $adminUsers = User::where('role', 'quality control')->get();
+                    foreach ($adminUsers as $admin) {
+                        $admin->notify(new ProductStatusNotification($produk));
+                    }
                 }
+                return back()->with('sukses', 'Data berhasil ditambahkan');
+            } else {
+                return back()->with('error', 'Data gagal ditambahkan');
             }
-
-            return back()->with('sukses', 'Data berhasil ditambahkan');       
-        } else {
-            return back()->with('gagal', 'Data gagal ditambahkan');
-        }
     }
 
     /**

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('namaPemesan');
             $table->string('asalPemesan');
             $table->string('namaProduk');
-            $table->int('jmlPesanan');
+            $table->integer('jmlPesanan');
             $table->string('bahan');
             $table->string('ukuran');
             $table->string('warna');

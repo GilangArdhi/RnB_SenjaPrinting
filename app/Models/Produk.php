@@ -13,6 +13,7 @@ class Produk extends Model
         'namaPemesan',
         'asalPemesan',
         'namaProduk',
+        'jmlPesanan',
         'ukuran',
         'bahan',
         'warna',
