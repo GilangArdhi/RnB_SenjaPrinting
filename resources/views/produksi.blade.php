@@ -191,7 +191,7 @@
                                                 <td>{{$produk -> jeniSablon}}</td>
                                                 <td>{{$produk -> status}}</td>
                                                 <td>
-                                                    @if ($produk->status === 'Ditunda' || $produk->status === 'Dikerjakan' || $produk->status === 'Selesai' || $produk->status === 'Ditolak' || $produk->status === '')
+                                                    @if ($produk->status === 'Ditunda' || $produk->status === 'Dikerjakan' || $produk->status === 'Selesai' || $produk->status === 'Ditolak' || $produk->status === null)
                                                     <div class="dropdown">
                                                         <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
                                                             Status Pengerjaan

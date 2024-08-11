@@ -83,9 +83,9 @@
                                         @foreach ($data as $produk)
                                         @csrf
                                             <tr>
-                                                @if ($produk->status === 'Ditolak')
+                                                <!-- @ if ($produk->status === 'Ditolak') -->
                                                     <td></td>
-                                                    <td>{{$produk -> id}}</td>
+                                                    <td>{{$produk -> produk_id}}</td>
                                                     <td>{{$produk -> namaPemesan}}</td>
                                                     <td>{{$produk -> asalPemesan}}</td>
                                                     <td>{{$produk -> namaProduk}}</td>
@@ -97,24 +97,28 @@
                                                     <td>{{$produk -> jeniSablon}}</td>
                                                     <td>{{$produk -> status}}</td>
                                                     <td>
-                                                        @if($produk->status === 'Ditolak' || $produk->status === 'Fixed')
-                                                            <div class="btn-group d-flex justify-content-around gap-4">
-                                                                <div>
-                                                                    <form action="{{ url('edit')}}" method="POST" id="formFixed_{{ $produk->id }}">
-                                                                        @csrf
-                                                                        <input type="hidden" name="status" value="Fixed">
-                                                                        <input type="hidden" name="idProduk" value="{{$produk->id}}">
-                                                                        <button class="btn btn-success btn-sm" type="submit" onclick="submitForm('formFixed_{{ $produk->id }}')">Fixed</button>
-                                                                    </form>
-                                                                </div>    
-                                                                <button class="btn btn-primary btn-sm" type="button" name="btnTolak"  data-bs-toggle="modal" data-bs-target="#myModal">Selengkapnya</button>
-                                                                
-                                                            </div>
-                                                        @endif
+                                                        @auth
+                                                            @if (Auth::user()->isProduksi())
+                                                                @if($produk->status === 'Ditolak' || $produk->status === 'Fixed')
+                                                                    <div class="btn-group d-flex justify-content-around gap-4">
+                                                                        <div>
+                                                                            <form action="{{ url('fixed')}}" method="POST" id="formFixed_{{ $produk->produk_id }}">
+                                                                                @csrf
+                                                                                <input type="hidden" name="status" value="Fixed">
+                                                                                <input type="hidden" name="id_produk" value="{{$produk->produk_id}}">
+                                                                                <button class="btn btn-success btn-sm" type="submit" onclick="submitForm('formFixed_{{ $produk->produk_id }}')">Fixed</button>
+                                                                            </form>
+                                                                        </div>    
+                                                                        <button class="btn btn-primary btn-sm" type="button" name="btnTolak"  data-bs-toggle="modal" data-bs-target="#myModal{{$produk->produk_id}}">Selengkapnya</button>
+                                                                        
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        @endauth
                                                     </td>
-                                                @endif
+                                                <!-- @ endif -->
 
-                                                <div class="modal fade" id="myModal">
+                                                <div class="modal fade" id="myModal{{$produk->produk_id}}">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
 
@@ -126,18 +130,18 @@
 
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
-                                                                <form method="post" action="{{ url('edit') }}">
+                                                                <form method="post" action="{{ url('fixed') }}">
                                                                     @csrf
                                                                     <!-- <div class="form-group">
                                                                         < !-- @ for each ($lastId as $Id) -- >
-                                                                        <label for="idProduk" class="form-label">Id Produk</label>
-                                                                        <input type="text" class="form-control" id="idProduk" name="idProduk" value="{ {$lastId}}" readonly>
+                                                                        <label for="id_produk" class="form-label">Id Produk</label>
+                                                                        <input type="text" class="form-control" id="id_produk" name="id_produk" value="{ {$lastId}}" readonly>
                                                                         <! -- @ end foreach - ->
                                                                     </div> -->
                                                                     <input type="hidden" name="status" value="Ditolak">
                                                                     <div class="form-group">
                                                                         <label for="namaPemesan" class="form-label">Id Produk</label>
-                                                                        <input type="text" class="form-control" placeholder="{{$produk->id}}" disabled>
+                                                                        <input type="text" class="form-control" placeholder="{{$produk->produk_id}}" disabled>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="namaPemesan" class="form-label">Nama Pemesan</label>
@@ -179,7 +183,7 @@
                                                                         <label for="jeniSablon" class="form-label">Keterangan</label>
                                                                         <textarea type="text" class="form-control" rows="4" placeholder="{{$produk->keterangan}}" disabled></textarea>
                                                                     </div>
-                                                                    <input type="hidden" name="idProduk" value="{{$produk->id}}">
+                                                                    <input type="hidden" name="id_produk" value="{{$produk->produk_id}}">
                                                                     <input type="hidden" name="status" value="Fixed">
                                                                     <button type="submit" class="btn btn-success">Fixed</button>
                                                                     <button type="button" class="btn btn-danger"

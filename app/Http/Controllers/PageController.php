@@ -48,7 +48,10 @@ class PageController extends Controller
     }
     public function keterangan(){
         $pengguna = Auth::user();
-        $data = DB::table('produk')->join('ketproduksi', 'produk.id', '=', 'ketproduksi.id_produk')->get();
+        $data = DB::table('produk')
+            ->join('ketproduksi', 'produk.id', '=', 'ketproduksi.id_produk')
+            ->where('produk.status', 'Ditolak')
+            ->select('produk.id as produk_id', 'produk.*', 'ketproduksi.*')->get();
         return view('keterangan', ['data' => $data, 'pengguna' => $pengguna]);
     }
     public function login(){
@@ -91,5 +94,15 @@ class PageController extends Controller
             // dd($credentials);
             return back()->withErrors(['email' => 'Email atau password salah.']);
         }
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

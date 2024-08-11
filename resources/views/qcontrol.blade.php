@@ -133,13 +133,13 @@
                                                                 @csrf
                                                                 <input type="hidden" name="status" value="Ditolak">
                                                                 <input type="hidden" name="idProduk" value="{{$produk->id}}">
-                                                                <button class="btn btn-danger btn-sm" type="button" name="btnTolak"  data-bs-toggle="modal" data-bs-target="#myModal">Ditolak</button>
+                                                                <button class="btn btn-danger btn-sm" type="button" name="btnTolak"  data-bs-toggle="modal" data-bs-target="#myModal{{$produk->id}}">Ditolak</button>
                                                             </form>    
                                                         </div>
                                                     @endif
                                                 </td>
 
-                                                <div class="modal fade" id="myModal">
+                                                <div class="modal fade" id="myModal{{$produk->id}}">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
 

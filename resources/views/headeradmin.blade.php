@@ -10,10 +10,10 @@
                         ></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="{{asset('assets/tempad/index3.html')}}" class="nav-link">Home</a>
+                        <a href="/logout" class="nav-link">Logout</a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="#" class="nav-link">Contact</a>
+                        <!-- <a href="#" class="nav-link">Contact</a> -->
                     </li>
                 </ul>
 

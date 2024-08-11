@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'login']);
 Route::post('/edit', [DataProduk::class, 'edit']);
+Route::post('/fixed', [DataProduk::class, 'fixed']);
 Route::post('/tolak', [DataProduk::class, 'tolak']);
 Route::post('store', [DataProduk::class, 'store']);
 Route::post('/masuk', [PageController::class, 'masuk'])->name('masuk');
@@ -29,4 +30,9 @@ Route::middleware(['auth', 'role:package'])->group(function () {
 
 Route::middleware(['auth', 'role:pengiriman'])->group(function () {
     Route::get('pengiriman', [PageController::class, 'pengiriman'] );
+});
+
+Route::middleware(['auth'])->group(function () {
+    // Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/logout', [PageController::class, 'logout']);
 });

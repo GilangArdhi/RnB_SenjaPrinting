@@ -130,6 +130,28 @@ class DataProduk extends Controller
         return redirect()->back()->with('success', 'Status produk berhasil diperbarui');
     }
 
+    public function fixed(Request $request){
+        $idProduk = $request->id_produk;
+        $produk = Produk::find($idProduk);
+        $keterangan = DB::table('ketproduksi')->where('id_produk', $idProduk);
+        $status = $request->status;
+        // dd($keterangan);
+        if($keterangan){
+            $produk->status = $status;
+            $produk->save();
+            if ($status == 'Fixed'){
+                $adminUsers = User::where('role', 'quality control')->get();
+                foreach ($adminUsers as $admin) {
+                    $admin->notify(new ProductStatusNotification($produk));
+                }
+            }
+            $keterangan->delete();
+        } else {
+            return redirect()->back()->withErrors('Produk tidak ditemukan');
+        }
+
+        return redirect()->back()->with('success', 'Status produk berhasil diperbarui');
+    }
     /**
      * Update the specified resource in storage.
      */
