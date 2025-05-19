@@ -16,7 +16,6 @@ RnB_SenjaPrinting adalah aplikasi manajemen percetakan berbasis web yang dikemba
 - Bahasa Pemrograman: PHP
 - Database: MySQL
 - Frontend: Blade Templating, Bootstrap
-- Autentikasi: Laravel Breeze / Jetstream (jika digunakan)
 
 ## 🚀 Instalasi
 
